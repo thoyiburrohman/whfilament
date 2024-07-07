@@ -19,23 +19,21 @@ class StockNte extends BaseWidget
         return $table
             ->query(Nte::query())
             ->columns([
-                Tables\Columns\TextColumn::make('warehouse.name')
+                Tables\Columns\TextColumn::make('assetNte.type')
                     ->label('Warehouse')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('assetNte.name')
                     ->label('Type')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('zte123')
+                Tables\Columns\TextColumn::make('tsel')
                     ->label('Tsel')
-                    ->getStateUsing(function (Nte $nte, AssetNte $assetNte) {
-                        return $assetNte->name === $nte->assetNte->name ? $assetNte->total : 0;
-                    })
+                    ->getStateUsing(fn (Nte $record)  =>  totalItemAssetNteTselGudang($record->asset_nte_id, $record->warehouse_id))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('Ebis')
                     ->label('Ebis')
-                    ->getStateUsing(function (Nte $nte, AssetNte $assetNte) {
-                        dd($nte->assetNte->name);
-                        return $assetNte->name === $nte->assetNte->name ? $assetNte->total : 0;
+                    ->getStateUsing(function (Nte $nte) {
+                        // dd($nte->warehouse_id);
+                        return totalItemAssetNteEbisGudang($nte->asset_nte_id, $nte->warehouse_id);
                     })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('note')
