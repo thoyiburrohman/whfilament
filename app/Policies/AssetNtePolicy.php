@@ -63,7 +63,7 @@ class AssetNtePolicy
      */
     public function forceDelete(User $user, AssetNte $assetNte): bool
     {
-        return $user->can('force_delete_asset::nte');
+        return $user->can('{{ ForceDelete }}');
     }
 
     /**
@@ -71,7 +71,7 @@ class AssetNtePolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_asset::nte');
+        return $user->can('{{ ForceDeleteAny }}');
     }
 
     /**
@@ -79,7 +79,7 @@ class AssetNtePolicy
      */
     public function restore(User $user, AssetNte $assetNte): bool
     {
-        return $user->can('restore_asset::nte');
+        return $user->can('{{ Restore }}');
     }
 
     /**
@@ -87,7 +87,7 @@ class AssetNtePolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_asset::nte');
+        return $user->can('{{ RestoreAny }}');
     }
 
     /**
@@ -95,7 +95,7 @@ class AssetNtePolicy
      */
     public function replicate(User $user, AssetNte $assetNte): bool
     {
-        return $user->can('replicate_asset::nte');
+        return $user->can('{{ Replicate }}');
     }
 
     /**
@@ -103,6 +103,6 @@ class AssetNtePolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_asset::nte');
+        return $user->can('{{ Reorder }}');
     }
 }

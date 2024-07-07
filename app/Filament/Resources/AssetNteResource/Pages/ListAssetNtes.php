@@ -5,6 +5,7 @@ namespace App\Filament\Resources\AssetNteResource\Pages;
 use App\Filament\Resources\AssetNteResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use PhpParser\Node\Stmt\Label;
 
 class ListAssetNtes extends ListRecords
 {
@@ -13,7 +14,20 @@ class ListAssetNtes extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->label('Tambah Asset NTE'),
+            Actions\ImportAction::make()
+                ->icon('heroicon-s-cloud-arrow-up')
+                ->color('success')
+                ->label('Upload')
+                ->visible(Auth()->user()->hasRole('super_admin')),
+            // ->importer(MitraImporter::class),
+            Actions\ImportAction::make()
+                ->icon('heroicon-s-cloud-arrow-down')
+                ->color('info')
+                ->label('Download')
+                ->visible(Auth()->user()->hasRole('super_admin')),
+            // ->importer(MitraImporter::class)
         ];
     }
 }

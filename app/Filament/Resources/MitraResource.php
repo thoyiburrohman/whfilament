@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Imports\MitraImporter;
 use App\Filament\Resources\MitraResource\Pages;
 use App\Filament\Resources\MitraResource\RelationManagers;
 use App\Models\Mitra;
@@ -11,15 +10,25 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Tables\Actions\ImportAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class MitraResource extends Resource
 {
+    // Model
     protected static ?string $model = Mitra::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    // Icon
+    protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
+
+    // Icon Active
+    protected static ?string $activeNavigationIcon = 'heroicon-c-building-office-2';
+
+    // Label
+    protected static ?string $navigationLabel = 'Mitra';
+
+    // Label Navigation Group
+    protected static ?string $navigationGroup = 'System';
 
     public static function form(Form $form): Form
     {
@@ -49,16 +58,13 @@ class MitraResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()->color('warning'),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ])->headerActions([
-                ImportAction::make()
-                    ->label('Import')
-                    ->importer(MitraImporter::class)
             ]);
     }
 

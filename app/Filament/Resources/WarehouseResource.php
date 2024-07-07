@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Imports\WarehouseImporter;
 use App\Filament\Resources\WarehouseResource\Pages;
 use App\Filament\Resources\WarehouseResource\RelationManagers;
 use App\Models\Warehouse;
@@ -10,17 +9,26 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Actions\ImportAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class WarehouseResource extends Resource
 {
+    // Model
     protected static ?string $model = Warehouse::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    // Icon
+    protected static ?string $navigationIcon = 'heroicon-o-building-office';
 
+    // Icon Active
+    protected static ?string $activeNavigationIcon = 'heroicon-c-building-office';
+
+    // Label
+    protected static ?string $navigationLabel = 'Warehouse';
+
+    // Label Navigation Group
+    protected static ?string $navigationGroup = 'System';
     public static function form(Form $form): Form
     {
         return $form
@@ -53,17 +61,14 @@ class WarehouseResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->color('warning'),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ])
-            ->headerActions([
-                ImportAction::make()
-                    ->label('Import')
-                    ->importer(WarehouseImporter::class)
             ]);
     }
 

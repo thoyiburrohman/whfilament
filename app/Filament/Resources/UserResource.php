@@ -12,39 +12,49 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 
 class UserResource extends Resource
 {
+    // Model
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    // Icon
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+
+    // Icon Active
+    protected static ?string $activeNavigationIcon = 'heroicon-c-users';
+
+    // Label
+    protected static ?string $navigationLabel = 'Users';
+
+    // Label Navigation Group
+    protected static ?string $navigationGroup = 'System';
+
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Select::make('roles')
+                Forms\Components\Select::make('roles')
                     ->relationship('roles', 'name')
                     ->preload()
                     ->searchable(),
-                Select::make('warehouse_id')
+                Forms\Components\Select::make('warehouse_id')
                     ->relationship('warehouse', 'name')
                     ->preload()
                     ->searchable()
                     ->label('warehouse'),
-                TextInput::make('name')
+                Forms\Components\TextInput::make('name')
                     ->required(),
-                TextInput::make('email')
+                Forms\Components\TextInput::make('email')
                     ->email()
                     ->unique(ignoreRecord: true)
                     ->required(),
-                TextInput::make('password')
+                Forms\Components\TextInput::make('password')
                     ->password()
                     ->dehydrated(fn (?string $state): bool => filled($state))
                     ->required(fn (string $operation): bool => $operation === 'create'),
-                TextInput::make('telegram')
+                Forms\Components\TextInput::make('telegram')
                     ->tel(),
             ]);
     }
@@ -65,7 +75,7 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('telegram')
+                Tables\Columns\TextInputColumn::make('telegram')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -80,7 +90,9 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->color('warning'),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

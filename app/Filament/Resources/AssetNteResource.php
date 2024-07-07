@@ -15,9 +15,20 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AssetNteResource extends Resource
 {
+    // Model
     protected static ?string $model = AssetNte::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    // Icon
+    protected static ?string $navigationIcon = 'heroicon-o-archive-box';
+
+    // Icon Active
+    protected static ?string $activeNavigationIcon = 'heroicon-s-archive-box';
+
+    // Label
+    protected static ?string $navigationLabel = 'Asset NTE';
+
+    // Label Navigation Group
+    protected static ?string $navigationGroup = 'System';
 
     public static function form(Form $form): Form
     {
@@ -63,7 +74,9 @@ class AssetNteResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->color('warning'),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

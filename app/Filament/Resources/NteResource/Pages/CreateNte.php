@@ -1,24 +1,25 @@
 <?php
 
-namespace App\Filament\Resources\MitraResource\Pages;
+namespace App\Filament\Resources\NteResource\Pages;
 
-use App\Filament\Resources\MitraResource;
+use App\Filament\Resources\NteResource;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 
-class CreateMitra extends CreateRecord
+class CreateNte extends CreateRecord
 {
-    protected static string $resource = MitraResource::class;
+    protected static string $resource = NteResource::class;
+
     protected function getRedirectUrl(): string
     {
-        return MitraResource::getUrl('index');
+        return NteResource::getUrl('index');
     }
 
     protected function getSavedNotification(): ?Notification
     {
         return Notification::make()
             ->success()
-            ->title('Mitra Created');
+            ->title('NTE Created');
     }
 }

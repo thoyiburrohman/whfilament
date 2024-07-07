@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Resources\AssetNteResource\Widgets\StockNteAvailableWidget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -17,6 +18,8 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Filament\Navigation\NavigationGroup;
+use App\Filament\Resources\NteResource\Widgets\StockNte;
 
 class DashboardPanelProvider extends PanelProvider
 {
@@ -40,8 +43,8 @@ class DashboardPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                StockNte::class,
+                // StockNteAvailableWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -59,6 +62,32 @@ class DashboardPanelProvider extends PanelProvider
             ])
             ->plugins([
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
+                    ->gridColumns([
+                        'default' => 1,
+                        'sm' => 2,
+                        'lg' => 3
+                    ])
+                    ->sectionColumnSpan(1)
+                    ->checkboxListColumns([
+                        'default' => 1,
+                        'sm' => 2,
+                        'lg' => 2,
+                    ])
+                    ->resourceCheckboxListColumns([
+                        'default' => 1,
+                        'sm' => 2,
+                    ]),
+            ])
+            ->navigationGroups([
+                NavigationGroup::make()
+                    ->label('NTE')
+                    ->collapsible(false),
+                NavigationGroup::make()
+                    ->label('Material')
+                    ->collapsible(false),
+                NavigationGroup::make()
+                    ->label('System')
+                    ->collapsible(false),
             ]);
     }
 }
