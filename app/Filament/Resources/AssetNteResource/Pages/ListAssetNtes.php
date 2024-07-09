@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AssetNteResource\Pages;
 
+use App\Filament\Imports\AssetNteImporter;
 use App\Filament\Resources\AssetNteResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
@@ -20,13 +21,13 @@ class ListAssetNtes extends ListRecords
                 ->icon('heroicon-s-cloud-arrow-up')
                 ->color('success')
                 ->label('Upload')
-                ->visible(Auth()->user()->hasRole('super_admin')),
-            // ->importer(MitraImporter::class),
-            Actions\ImportAction::make()
-                ->icon('heroicon-s-cloud-arrow-down')
-                ->color('info')
-                ->label('Download')
-                ->visible(Auth()->user()->hasRole('super_admin')),
+                ->visible(Auth()->user()->hasRole('super_admin'))
+                ->importer(AssetNteImporter::class),
+            // Actions\ImportAction::make()
+            //     ->icon('heroicon-s-cloud-arrow-down')
+            //     ->color('info')
+            //     ->label('Download')
+            //     ->visible(Auth()->user()->hasRole('super_admin')),
             // ->importer(MitraImporter::class)
         ];
     }

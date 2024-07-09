@@ -17,28 +17,38 @@ class StockNte extends BaseWidget
     public function table(Table $table): Table
     {
         return $table
-            ->query(Nte::query())
+            ->query(AssetNte::query())
             ->columns([
-                Tables\Columns\TextColumn::make('assetNte.type')
-                    ->label('Warehouse')
+                Tables\Columns\TextColumn::make('type')
+                    ->label('Jenis')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('assetNte.name')
-                    ->label('Type')
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Item Description')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('tsel')
                     ->label('Tsel')
-                    ->getStateUsing(fn (Nte $record)  =>  totalItemAssetNteTselGudang($record->asset_nte_id, $record->warehouse_id))
+                    ->getStateUsing(function (AssetNte $record) {
+                        $total = 0;
+                        foreach ($record->nte as $nte) { // Iterasi melalui koleksi 'ntes'
+                            $total = totalItemAssetNteTselGudang($nte->asset_nte_id, $nte->warehouse_id);
+                        }
+                        if ($total) {
+                            return $total;
+                        };
+                    })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('Ebis')
                     ->label('Ebis')
-                    ->getStateUsing(function (Nte $nte) {
-                        // dd($nte->warehouse_id);
-                        return totalItemAssetNteEbisGudang($nte->asset_nte_id, $nte->warehouse_id);
+                    ->getStateUsing(function (AssetNte $record) {
+                        $total = 0;
+                        foreach ($record->nte as $nte) { // Iterasi melalui koleksi 'ntes'
+                            $total = totalItemAssetNteEbisGudang($nte->asset_nte_id, $nte->warehouse_id);
+                        }
+                        if ($total) {
+                            return $total;
+                        };
                     })
                     ->sortable(),
-                Tables\Columns\TextColumn::make('note')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

@@ -86,12 +86,12 @@ class NteResource extends Resource
                 Tables\Columns\TextColumn::make('assetNte.name')
                     ->label('Type')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('serial_number')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('owner')
-                    ->searchable()
-                    ->summarize(Count::make()->label('EBIS')),
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('status')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('note')
